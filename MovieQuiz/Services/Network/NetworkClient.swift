@@ -19,11 +19,14 @@ struct NetworkClient {
     let task = URLSession.shared.dataTask(with: request) { data, response, error in
       if let error = error {
         handler(.failure(error))
+
         return
       }
       
+      let happyStatusCodes = 200..<300
+      
       if let response = response as? HTTPURLResponse,
-         response.statusCode < 200 || response.statusCode >= 300 {
+         !happyStatusCodes.contains(response.statusCode) {
         handler(.failure(NetworkError.codeError))
         return
       }

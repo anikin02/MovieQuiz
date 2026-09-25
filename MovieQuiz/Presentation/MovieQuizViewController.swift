@@ -32,7 +32,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
   
   // MARK: - QuestionFactoryDelegate
   func didReceiveNextQuestion(question: QuizQuestion?) {
-    guard let question = question else { return }
+    guard let question else { return }
     currentQuestion = question
     let viewModel = convert(model: question)
     DispatchQueue.main.async {
@@ -161,10 +161,11 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
   
   private func showNetworkError(message: String) {
     hideLoadingIndicator()
-    
-    let model = AlertModel(title: "Ошибка",
+    let alertTitle = "Ошибка"
+    let buttonText = "Попробовать еще раз"
+    let model = AlertModel(title: alertTitle,
                            message: message,
-                           buttonText: "Попробовать еще раз") { [weak self] in
+                           buttonText: buttonText) { [weak self] in
       guard let self = self else { return }
       
       self.currentQuestionIndex = 0
