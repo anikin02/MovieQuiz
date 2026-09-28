@@ -13,7 +13,11 @@ protocol MoviesLoading {
 
 struct MoviesLoader: MoviesLoading {
   // MARK: - NetworkClient
-  private let networkClient: NetworkClient = NetworkClient()
+  private let networkClient: NetworkRouting
+  
+  init(networkClient: NetworkRouting = NetworkClient()) {
+    self.networkClient = networkClient
+  }
   
   // MARK: - URL
   private let stringUrl: String = "https://tv-api.com/api/top-250-movies?apikey=juv0ohccyeycmvbwn4du"
