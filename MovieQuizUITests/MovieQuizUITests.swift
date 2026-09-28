@@ -77,8 +77,10 @@ final class MovieQuizUITests: XCTestCase {
     
     for _ in 0..<10 {
       yesButton.tap()
-      sleep(3)
+      sleep(5)
     }
+    
+    sleep(5)
     
     let alert = app.alerts["Alert"]
     
@@ -94,16 +96,21 @@ final class MovieQuizUITests: XCTestCase {
     
     for _ in 0..<10 {
       yesButton.tap()
-      sleep(3)
+      sleep(5)
     }
     
     let alert = app.alerts["Alert"]
+    
+    XCTAssertTrue(alert.waitForExistence(timeout: 5))
     
     alert.buttons.firstMatch.tap()
     
     let indexLabel = app.staticTexts["Index"]
     
     XCTAssertFalse(alert.exists)
+    
+    sleep(5)
+    
     XCTAssertTrue(indexLabel.label == "1/10")
   }
 }
