@@ -13,11 +13,16 @@ protocol MoviesLoading {
 
 struct MoviesLoader: MoviesLoading {
   // MARK: - NetworkClient
-  private let networkClient: NetworkClient = NetworkClient()
+  private let networkClient: NetworkRouting
+  
+  init(networkClient: NetworkRouting = NetworkClient()) {
+    self.networkClient = networkClient
+  }
   
   // MARK: - URL
+  private let stringUrl: String = "https://tv-api.com/api/top-250-movies?apikey=juv0ohccyeycmvbwn4du"
   private var mostPopularMoviesUrl: URL {
-    guard let url = URL(string: "https://tv-api.com/api/top-250-movies?apikey=juv0ohccyeycmvbwn4du") else {
+    guard let url = URL(string: stringUrl) else {
       preconditionFailure("Unable to construct mostPopularMoviesUrl")
     }
     return url

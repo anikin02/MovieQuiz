@@ -49,18 +49,37 @@ final class QuestionFactory: QuestionFactoryProtocol {
         print("Failed to load image")
       }
       
-      let proposedRating = Int.random(in: 7...9)
-      let text = "Рейтинг этого фильма больше чем \(proposedRating)?"
-      let correctAnswer = movie.rating > Float(proposedRating)
-      
-      let question = QuizQuestion(image: imageData,
-                                  text: text,
-                                  correctAnswer: correctAnswer)
+      let question = generateQuestion(imageData: imageData, movie: movie)
       
       DispatchQueue.main.async { [weak self] in
         guard let self = self else { return }
         self.delegate?.didReceiveNextQuestion(question: question)
       }
     }
+  }
+  
+  private func generateQuestion(imageData: Data, movie: MostPopularMovie) -> QuizQuestion {
+    enum Comparison: String, CaseIterable {
+      case bigger = "больше"
+      case smaller = "меньше"
+    }
+    
+    let proposedRating = Int.random(in: 7...9)
+    let proposedCompare = Comparison.allCases.randomElement() ?? .bigger
+    
+    let text = "Рейтинг этого фильма \(proposedCompare.rawValue) чем \(proposedRating)?"
+    
+    var correctAnswer: Bool
+    
+    switch proposedCompare {
+      case .bigger:
+        correctAnswer = movie.rating > Float(proposedRating)
+      case .smaller:
+        correctAnswer = movie.rating < Float(proposedRating)
+    }
+    
+    return QuizQuestion(image: imageData,
+                        text: text,
+                        correctAnswer: correctAnswer)
   }
 }
