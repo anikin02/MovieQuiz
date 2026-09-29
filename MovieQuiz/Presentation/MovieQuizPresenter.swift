@@ -39,9 +39,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
   }
   
   func didReceiveNextQuestion(question: QuizQuestion?) {
-    guard let question = question else {
-      return
-    }
+    guard let question else { return }
     
     currentQuestion = question
     let viewModel = convert(model: question)
@@ -82,7 +80,6 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
       viewController?.show(quiz: result)
     } else {
       switchToNextQuestion()
-      
       questionFactory?.requestNextQuestion()
     }
   }
@@ -99,9 +96,8 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
   }
   
   private func proccessAnswer(givenAnswer: Bool) {
-    guard let currentQuestion = currentQuestion else {
-      return
-    }
+    guard let currentQuestion else { return }
+    
     proceedWithAnswer(isCorrect: givenAnswer == currentQuestion.correctAnswer)
   }
   
